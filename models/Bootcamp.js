@@ -99,6 +99,11 @@ const BootcampSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     toJSON: {
@@ -148,7 +153,7 @@ BootcampSchema.virtual("courses", {
   ref: "Course",
   localField: "_id",
   foreignField: "bootcamp",
-  jsutOne: false,
+  justOne: false,
 });
 
 module.exports = mongoose.model("Bootcamp", BootcampSchema);
