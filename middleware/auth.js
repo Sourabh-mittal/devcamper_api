@@ -7,13 +7,15 @@ const User = require("../models/User");
 exports.protect = asyncHandler(async (req, res, next) => {
   let token;
   const { authorization } = req.headers;
-
+  // console.log(...req);
   if (authorization && authorization.startsWith("Bearer")) {
+    // Set token from Bearer token in header
     token = authorization.split(" ")[1];
   }
 
-  // else if(req.cookies.token) {
-  //   token = req.cookie.token
+  // Set token from cookie
+  // else if (req.cookies.token) {
+  //   token = req.cookies.token;
   // }
 
   // Make sure token exists
@@ -25,9 +27,9 @@ exports.protect = asyncHandler(async (req, res, next) => {
     // Veriy token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    console.log(decoded);
-
     req.user = await User.findById(decoded.id);
+
+    console.log(req.user);
 
     next();
   } catch (err) {
